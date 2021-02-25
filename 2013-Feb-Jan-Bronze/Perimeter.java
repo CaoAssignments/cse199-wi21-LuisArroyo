@@ -1,12 +1,6 @@
 import java.io.*;
 import java.util.*;
 
-/**
- * This file runs the WordProcessor class and uses main to test input.
- * WordProcessor takes in input n, k, and the essay, while separating the essay into lines such that
- * each line is no more than k characters long.
- */
-
 public class Perimeter{
 
 
@@ -14,27 +8,24 @@ public class Perimeter{
     private static int[][] field;
     private static int amount;
 
-    /**
-     * Takes in the essay parameters and formats the essay according to the question instructions.
-     * @param wordCount - the number of words in the essay
-     *        charCount - the number of characters allowed per line
-     *        essay - a string array of essay words
-     * @return none
-     */
     public static void process(int x, int y){
+        // 2D array boundary check
         if((x < 0 || x > 99) || (y < 0 || y > 99))
             return;
-        if(field[x][y] == 0){
-            field[x][y] = 2;
+        // Visits surrounding points. 2 represents a visited point
+        if(field[y][x] == 0){
+            field[y][x] = 2;
             process(x, y + 1);
             process(x, y - 1);
             process(x + 1, y);
             process(x - 1, y);
             return;
         }
-        if (field[x][y] == 2)
+        // Returns when visited
+        if (field[y][x] == 2)
             return;
-        else if(field[x][y] == 1){
+        // Increments by 1 for each side of the square on the edge of the perimeter
+        else if(field[y][x] == 1){
              output++;
              return;
         }
@@ -51,19 +42,19 @@ public class Perimeter{
         String input1 = input.nextLine();
         amount = Integer.parseInt(input1);
         field = new int[100][100];
-        int right = 0;
-        int point = 0;
+        int col = 0;
+        int row = 0;
         for (int i = 0; i < amount; i++){
             int x = input.nextInt();
             int y = input.nextInt();
-            if (x > right) {
-                right = x;
-                point = y;
+            if (x > col) {
+                col = x;
+                row = y;
             }
-            field[x][y] = 1;
+            field[y - 1][x - 1] = 1;
         }
 
-        process(right + 1, point);
+        process(col + 1, row);
         System.out.println(output);
     }
 }
